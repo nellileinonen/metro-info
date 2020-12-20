@@ -1,75 +1,202 @@
 import './App.css';
+import { stations, apiURL, setStationsInfo, getNewDataNow, setNewDataNow,
+         createStationsQuery, createDefaultQuery, createMetroQuery } from './apiHelpers.js';
 import Clock from './components/Clock.js';
+import Station from './components/Station.js';
 import Timetable from './components/Timetable.js';
 import { useState, useEffect } from 'react';
 
 function App() {
+  const [station, setStation] = useState('Tapiola');
+  const [direction, setDirection] = useState('itään');
   const [metros, setMetros] = useState([]);
 
-  // timestamp: seconds since midnight
+  const stationHandler = (newStation) => {
+    // Set helper variable newDataNow to indicate that it's ok to fetch data from api immediately
+    setNewDataNow(true);
+    setStation(newStation);
+  }
+
+  const directionHandler = () => {
+    // Set helper variable newDataNow to indicate that it's ok to fetch data from api immediately
+    setNewDataNow(true);
+    direction === 'itään' ? setDirection('länteen') : setDirection('itään')
+  }
+
   const convertTime = (timestamp) => {
     const hours = Math.floor(timestamp / 3600);
     const minutes = Math.floor(timestamp % 3600 / 60);
     const seconds = Math.floor(timestamp % 3600 % 60);
-    const hoursAndMinutes = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const hms = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return hms;
+  }
 
-    return hoursAndMinutes;
+  /* Look for arriving metros that match the app state (station and direction) and
+   * update new arriving metros to app state
+   */
+  const findAndSetArrivals = (dataJson) => {
+
+    // Collect arriving metros
+    let arrivals = [];
+    for (let stop in dataJson) {
+      // Clear away metros with empty headsigns i.e. no destination (for example, on terminals)
+      const temp = dataJson[stop].stoptimesWithoutPatterns.filter(metro => metro.headsign !== null);
+      const destination = temp.length > 0 ? temp[0].headsign : '';
+      if (direction === 'itään') {
+        if (temp.length > 0 && (destination === 'Vuosaari' || destination === 'Mellunmäki')) {
+          arrivals = temp;
+          // No need to check the rest of the data if right data already found
+          break;
+        }
+      } else {
+        if (temp.length > 0 && (destination === 'Tapiola' || destination === 'Matinkylä')) {
+          arrivals = temp;
+          // No need to check the rest of the data if right data already found
+          break;
+        }
+      }
+    }
+
+    // Update arriving metros to app state
+    if (arrivals.length > 0) {
+      const nextMetros = arrivals.map(item => (
+          [item.trip.id, convertTime(item.realtimeDeparture), item.headsign]
+        ));
+      setMetros(nextMetros);
+    } else {
+      console.error(`No arriving metros to direction '${direction}'`);
+      setMetros([]);
+    }
   }
 
   useEffect(() => {
-    const apiURL = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql';
 
-    const apiQuery = `{stop(id: "HSL:2211601") {
-                        name
-                        stoptimesWithoutPatterns {
-                          realtimeDeparture
-                          headsign
-                          trip {
-                            id
-                          }
-                        }
-                      }}`;
+    /***** Get list of all stations *****/
 
-    const init = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/graphql'
-      },
-      body: apiQuery
-    }
+    let initStationsQuery = createStationsQuery();
+    fetch(apiURL, initStationsQuery)
+    .then(response => response.json())
+    .then(data => {
 
-    const getData = () => {
-      fetch(apiURL, init)
+      let stationsJson = data.data;
+      let temp = [];
+
+      for (let item in stationsJson) {
+        for (let i = 0; i < stationsJson[item].length; i++) {
+          const s = stationsJson[item];
+          if (stations.includes(s[i].name) && s[i].vehicleType === 1) {
+            temp.push(
+              {
+                'id': s[i].gtfsId,
+                'name': s[i].name
+              }
+            )
+          }
+        }
+      }
+      // Remove duplicates because GraphQL query parameter 'Helsingin yliopisto' matches also
+      // 'Aalto yliopisto' and vice versa
+      const ids = temp.map(item => item.id)
+      temp = temp.filter( ({id}, ind) => !ids.includes(id, ind + 1) );
+      // Update array that holds info of station names and ids
+      setStationsInfo(temp);
+
+      /***** Get default data *****/
+
+      const initDefaultQuery = createDefaultQuery();
+      fetch(apiURL, initDefaultQuery)
       .then(response => response.json())
       .then(data => {
-        const arrivals = data.data.stop.stoptimesWithoutPatterns;
-        const nextMetros = arrivals.map(item => (
-          [convertTime(item.realtimeDeparture), item.headsign, item.trip.id]
-        ));
-        setMetros(nextMetros);
+
+        // (Helper function findAndSetArrivals() can't be used here because
+        // this effect should run only one time (no dependencies).)
+
+        let arrivals = [];
+
+        for (let stop in data.data) {
+          // Clear away metros with empty headsigns i.e. no destination (for example, on terminals)
+          const temp = data.data[stop].stoptimesWithoutPatterns.filter(metro => metro.headsign !== null);
+          const destination = temp[0].headsign;
+          // Default direction is 'itään'
+          if (temp.length > 0 && (destination === 'Vuosaari' || destination === 'Mellunmäki')) {
+            arrivals = temp;
+            // No need to check the rest of the data if right data already found
+            break;
+          }
+        }
+
+        if (arrivals.length > 0) {
+          const nextMetros = arrivals.map(item => (
+              [item.trip.id, convertTime(item.realtimeDeparture), item.headsign]
+            ));
+          setMetros(nextMetros);
+        } else {
+          console.error(`No arriving metros to direction 'itään'`);
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
         setMetros([]);
-      });
-    };
+      })
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    })
 
-    if (metros.length === 0) {
-      // Get data immediately if state is empty
-      getData();
+  }, []);
+
+
+  useEffect(() => {
+    if (getNewDataNow()) {
+      // If app state change was caused by change in station or direction,
+      // get new data immediately
+
+      // Set helper variable newDataNow to indicate that next fetch from api
+      // doesn't have to be immediately executed
+      setNewDataNow(false);
+
+      const init1 = createMetroQuery(station);
+      fetch(apiURL, init1)
+      .then(response => response.json())
+      .then(data => {
+        findAndSetArrivals(data.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setMetros([]);
+      })
+
     } else {
-      // Get new data every 15 seconds
-      let timerID = setInterval(() => getData(), 15000);
+      // If app state change was caused by change in metros state,
+      // get new data every 15 seconds
+
+      let timerID = setInterval(() => {
+        const init2 = createMetroQuery(station);
+        fetch(apiURL, init2)
+        .then(response => response.json())
+        .then(data => {
+          findAndSetArrivals(data.data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setMetros([]);
+        })
+      }, 15000);
       // Clear interval after effect
       return () => clearInterval(timerID);
     }
-  }, [metros]);
+  });
 
   return (
     <div className="App">
       <Clock />
-      <h1>Metrot itään</h1>
-      <p>Tapiola</p>
+      <Station
+        stations={ stations }
+        station={ station }
+        direction={ direction }
+        stationHandler={ stationHandler }
+        directionHandler={ directionHandler }
+      />
       <Timetable metros={ metros }/>
     </div>
   );
