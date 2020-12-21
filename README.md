@@ -2,9 +2,13 @@
 
 An app displaying Helsinki metro timetable.
 
-Choose you station and direction, and see the next departures.
+<br />
 
+![](metro-info.gif)
 
+<br />
+
+Choose your station and direction and see the next departures.
 
 The app fetches data from [Digitransit RoutingAPI](https://digitransit.fi/en/developers/apis/1-routing-api/).
 
@@ -26,6 +30,6 @@ npm install
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app in browser.
+Open [http://localhost:3000](http://localhost:3000) to view the app in the browser.
 
-Enjoy your metro timetable!
+Enjoy your metro timetable! :train2:
