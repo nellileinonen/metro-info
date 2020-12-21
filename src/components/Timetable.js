@@ -1,17 +1,20 @@
-import './Timetable.css';
+import styled from 'styled-components';
+
+const StyledSpan = styled.span`
+  font-size: 1.6em;
+  display: inline-block;
+  width: 125px;
+`;
 
 function Timetable({ metros }) {
   return (
-    <table>
-      <tbody>
-      {metros.map(([id, depTime, dest]) => (
-        <tr key={id}>
-          <td>{depTime}</td>
-          <td>{dest}</td>
-        </tr>
-      ))}
-      </tbody>
-    </table>
+    <div>
+        {metros.map(([id, depTime, dest]) => (
+          <p key={id}>
+            <StyledSpan>{depTime}</StyledSpan> {dest}
+          </p>
+        ))}
+    </div>
   );
 }
 

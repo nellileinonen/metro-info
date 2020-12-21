@@ -1,10 +1,40 @@
-import './App.css';
+import styled from 'styled-components';
 import { stations, apiURL, setStationsInfo, getNewDataNow, setNewDataNow,
          createStationsQuery, createDefaultQuery, createMetroQuery } from './apiHelpers.js';
 import Clock from './components/Clock.js';
 import Station from './components/Station.js';
 import Timetable from './components/Timetable.js';
 import { useState, useEffect } from 'react';
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  height: 100%;
+
+  background-image:
+    linear-gradient(
+      rgba(36,36,99, 0.65),
+      rgba(36,36,99, 0.65)
+    ),
+    url(${process.env.PUBLIC_URL + '/background.jpg'});
+  background-position: center;
+
+`;
+
+const StyledApp = styled.div`
+  align-self: center;
+
+  background-color: #fbfbfe;
+  padding: 70px 100px 100px;
+  border-radius: 2px;
+
+  width: 250px;
+  height: 450px;
+
+  position:relative;
+`;
 
 function App() {
   const [station, setStation] = useState('Tapiola');
@@ -188,17 +218,19 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <Clock />
-      <Station
-        stations={ stations }
-        station={ station }
-        direction={ direction }
-        stationHandler={ stationHandler }
-        directionHandler={ directionHandler }
-      />
-      <Timetable metros={ metros }/>
-    </div>
+    <Wrapper>
+      <StyledApp>
+        <Clock />
+        <Station
+          stations={ stations }
+          station={ station }
+          direction={ direction }
+          stationHandler={ stationHandler }
+          directionHandler={ directionHandler }
+        />
+        <Timetable metros={ metros }/>
+      </StyledApp>
+    </Wrapper>
   );
 }
 

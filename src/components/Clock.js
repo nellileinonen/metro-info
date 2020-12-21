@@ -1,5 +1,11 @@
+import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
-import './Clock.css';
+
+const StyledClock = styled.div`
+  position:absolute;
+  right: 30px;
+  top: 25px;
+`;
 
 function Clock() {
   const [time, setTime] = useState(new Date().toLocaleTimeString('en-GB'));
@@ -17,9 +23,9 @@ function Clock() {
   }
 
   return (
-    <div>
+    <StyledClock>
       {time}
-    </div>
+    </StyledClock>
   );
 }
 
