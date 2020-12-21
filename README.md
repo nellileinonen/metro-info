@@ -1,4 +1,4 @@
-# Metro Info App
+# Metro Timetable App
 
 An app displaying Helsinki metro timetable.
 
