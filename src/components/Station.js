@@ -62,7 +62,10 @@ function Station({ stations, station, direction, stationHandler, directionHandle
   return (
     <StyledStation>
       <StyledTitle>
-        Metrot <StyledButton onClick={ directionHandler }>{ direction }</StyledButton>
+        Metrot
+        <StyledButton onClick={ directionHandler }>
+          { (direction === 'east') ? 'itään' : 'länteen'}
+        </StyledButton>
       </StyledTitle>
       <div>
         <StyledSpan><FiMapPin /></StyledSpan>
