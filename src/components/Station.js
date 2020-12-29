@@ -2,21 +2,25 @@ import styled from 'styled-components';
 import { FiMapPin } from 'react-icons/fi';
 
 const StyledStation = styled.div`
-  padding-bottom: 25px;
+  padding-bottom: 1.5em;
 `;
 
 const StyledTitle = styled.h1`
   font-weight: 400;
-  padding-bottom: 15px;
-`
+  padding: 0.5em 0;
+
+  @media (min-width: 401px) {
+    padding: 0 0 0.5em 0;
+  }
+`;
 
 const StyledButton = styled.button`
   background: transparent;
   border: none;
 
   text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 5px;
+  text-decoration-thickness: 0.13em;
+  text-underline-offset: 0.2em;
   text-decoration-color: #ff6620;
 
   :hover {
@@ -32,21 +36,18 @@ const StyledButton = styled.button`
 
 const StyledSpan = styled.span`
   display: inline-block;
-  padding-right: 10px;
+  padding-right: 0.3em;
   font-size: 1.3em;
 `;
 
 const StyledLabel = styled.label`
-  color: white;
-  overflow: hidden;
-  padding: 0;
+  z-index: -1;
   position: absolute;
-  width: 1px;
 `;
 
 const StyledSelect = styled.select`
-  width: 210px;
-  padding: 5px;
+  width: 12em;
+  padding: 0.2em;
 
   font-family: 'Poppins', 'Helvetica', sans-serif;
   font-size: 1em;

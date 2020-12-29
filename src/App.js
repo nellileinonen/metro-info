@@ -19,20 +19,20 @@ const Wrapper = styled.div`
     ),
     url(${process.env.PUBLIC_URL + '/background.jpg'});
   background-position: center;
-
 `;
 
 const StyledApp = styled.div`
   align-self: center;
-
   background-color: #fbfbfe;
-  padding: 70px 100px 100px;
   border-radius: 2px;
-
-  width: 250px;
-  height: 450px;
-
+  padding: 1.5em 2em 2em 2em;
+  min-height: 80vh;
   position:relative;
+
+  @media (min-width: 401px) {
+    padding: 4em 5em;
+    min-height: 40vh;
+  }
 `;
 
 function App() {
@@ -167,7 +167,7 @@ function App() {
           setMetros([]);
         }
 
-      }, 5000);
+      }, 15000);
       // Clear interval after effect
       return () => clearInterval(timerID);
     }

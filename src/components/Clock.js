@@ -3,8 +3,15 @@ import React, { useState, useEffect } from 'react';
 
 const StyledClock = styled.div`
   position:absolute;
-  right: 30px;
-  top: 25px;
+  right: 0.5em;
+  top: 0;
+  background-color: #fbfbfe;
+  padding: 0.5em;
+
+  @media (min-width: 401px) {
+    right: 1.5em;
+    top: 1em;
+  }
 `;
 
 function Clock() {
