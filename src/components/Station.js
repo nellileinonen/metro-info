@@ -64,6 +64,7 @@ function Station({ stations, station, direction, stationHandler, directionHandle
     <StyledStation>
       <StyledTitle>
         Metrot
+        {` `}
         <StyledButton onClick={ directionHandler }>
           { (direction === 'east') ? 'itään' : 'länteen'}
         </StyledButton>

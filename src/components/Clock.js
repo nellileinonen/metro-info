@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 
 const StyledClock = styled.div`
-  position:absolute;
+  position: absolute;
   right: 0.5em;
   top: 0;
-  background-color: #fbfbfe;
   padding: 0.5em;
 
   @media (min-width: 401px) {

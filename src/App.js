@@ -3,35 +3,32 @@ import { stations, apiURL, defaultQuery, createMetroQuery, getNewDataNow, setNew
 import Clock from './components/Clock.js';
 import Station from './components/Station.js';
 import Timetable from './components/Timetable.js';
+import Footer from './components/Footer.js';
 import { useState, useEffect } from 'react';
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: safe center;
+  align-items: center;
 
   height: 100%;
-
-  background-image:
-    linear-gradient(
-      rgba(36,36,99, 0.65),
-      rgba(36,36,99, 0.65)
-    ),
-    url(${process.env.PUBLIC_URL + '/background.jpg'});
-  background-position: center;
 `;
 
 const StyledApp = styled.div`
-  align-self: center;
+  flex-shrink: 0;
+  margin: auto;
+
   background-color: #fbfbfe;
   border-radius: 2px;
   padding: 1.5em 2em 2em 2em;
-  min-height: 80vh;
+  min-height: 30em;
+  min-width: 16em;
+
   position:relative;
 
   @media (min-width: 401px) {
     padding: 4em 5em;
-    min-height: 40vh;
   }
 `;
 
@@ -174,7 +171,7 @@ function App() {
   }, [station, direction, metros]);
 
   return (
-    <Wrapper>
+    <Container>
       <StyledApp>
         <Clock />
         <Station
@@ -186,7 +183,8 @@ function App() {
         />
         <Timetable metros={ metros }/>
       </StyledApp>
-    </Wrapper>
+      <Footer />
+    </Container>
   );
 }
 

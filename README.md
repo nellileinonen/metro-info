@@ -10,7 +10,9 @@ An app displaying Helsinki metro timetable.
 
 Choose your station and direction and see the next departures.
 
-The app fetches data from [Digitransit RoutingAPI](https://digitransit.fi/en/developers/apis/1-routing-api/).
+The app fetches data from [Digitransit Routing API](https://digitransit.fi/en/developers/apis/1-routing-api/). Data is provided by Helsinki Region Transport and licenced under [Creative Commons BY 4.0 International](https://creativecommons.org/licenses/by/4.0/) -license.
+
+Background image is by [Julius Jansson](https://unsplash.com/@juliusjansson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/keilaniemi?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText).
 
 ## Get started
 
