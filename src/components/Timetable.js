@@ -1,14 +1,9 @@
 import styled from 'styled-components';
 
-const StyledTimeSpan = styled.span`
+const StyledSpan = styled.span`
   font-size: 1.6em;
   display: inline-block;
   width: 4.5em;
-`;
-
-const StyledDestSpan = styled.span`
-  display: inline-block;
-  width: 5em;
 `;
 
 function Timetable({ metros }) {
@@ -16,7 +11,7 @@ function Timetable({ metros }) {
     <div>
         {metros.map(([id, depTime, dest]) => (
           <p key={id}>
-            <StyledTimeSpan>{depTime}</StyledTimeSpan> <StyledDestSpan>{dest}</StyledDestSpan>
+            <StyledSpan>{depTime}</StyledSpan> {dest}
           </p>
         ))}
     </div>

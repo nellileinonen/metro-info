@@ -9,9 +9,6 @@ import { useState, useEffect } from 'react';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: safe center;
-  align-items: center;
-
   height: 100%;
 `;
 
