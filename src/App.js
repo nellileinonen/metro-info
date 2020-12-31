@@ -69,7 +69,6 @@ function App() {
             ));
           setMetros(nextMetros);
         } else {
-          console.error('No arriving metros');
           setMetros([]);
         }
       })
@@ -80,6 +79,7 @@ function App() {
     }
     else {
       console.error('Could not get data');
+      setMetros([]);
     }
 
   }, []);
@@ -108,26 +108,22 @@ function App() {
               ));
             setMetros(nextMetros);
           } else {
-            // TODO: check if terminal station, inform user
-            console.error('No arriving metros');
             setMetros([]);
           }
         })
         .catch((error) => {
-          // TODO: inform user
           console.error('Error:', error);
           setMetros([]);
         })
       }
       else {
-        // TODO: inform user
         console.error('Could not get data');
         setMetros([]);
       }
 
     } else {
       /* If app state change was caused by change in metros state,
-       * get new data every 15 seconds
+       * get new data every 2 seconds
        */
 
       let timerID = setInterval(() => {
@@ -144,24 +140,20 @@ function App() {
                 ));
               setMetros(nextMetros);
             } else {
-              // TODO: check if terminal station, inform user
-              console.error('No arriving metros');
               setMetros([]);
             }
           })
           .catch((error) => {
-            // TODO: inform user
             console.error('Error:', error);
             setMetros([]);
           })
         }
         else {
-          // TODO: inform user
           console.error('Could not get data');
           setMetros([]);
         }
 
-      }, 15000);
+      }, 2000);
       // Clear interval after effect
       return () => clearInterval(timerID);
     }
@@ -178,7 +170,11 @@ function App() {
           stationHandler={ stationHandler }
           directionHandler={ directionHandler }
         />
-        <Timetable metros={ metros }/>
+        <Timetable
+          metros={ metros }
+          station={ station }
+          direction={ direction }
+        />
       </StyledApp>
       <Footer />
     </Container>
