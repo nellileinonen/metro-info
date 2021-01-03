@@ -1,4 +1,6 @@
+import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { FiMapPin } from 'react-icons/fi';
 
 const StyledStation = styled.div`
@@ -80,6 +82,14 @@ function Station({ stations, station, direction, stationHandler, directionHandle
       </div>
     </StyledStation>
   );
+}
+
+Station.propTypes = {
+  stations: PropTypes.array,
+  station: PropTypes.string,
+  direction: PropTypes.string,
+  stationHandler: PropTypes.func,
+  directionHandler: PropTypes.func
 }
 
 export default Station;

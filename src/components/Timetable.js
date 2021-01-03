@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import React from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StyledSpan = styled.span`
   font-size: 1.6em;
@@ -68,6 +69,12 @@ function areEqual(prevProps, nextProps) {
   else {
     return false;
   }
+}
+
+Timetable.propTypes = {
+  metros: PropTypes.array,
+  station: PropTypes.string,
+  direction: PropTypes.string
 }
 
 // Use React memo to re-render Timetable only if metro info changes

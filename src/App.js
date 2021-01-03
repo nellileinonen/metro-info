@@ -1,10 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { stations, apiURL, defaultQuery, createMetroQuery, getNewDataNow, setNewDataNow } from './apiHelpers.js';
 import Clock from './components/Clock.js';
 import Station from './components/Station.js';
 import Timetable from './components/Timetable.js';
 import Footer from './components/Footer.js';
-import { useState, useEffect } from 'react';
 
 const Container = styled.div`
   display: flex;
