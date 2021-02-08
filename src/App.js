@@ -24,7 +24,7 @@ const StyledApp = styled.div`
 
   position:relative;
 
-  @media (min-width: 401px) {
+  @media (min-width: 400px) {
     padding: 4em 5em;
   }
 `;
@@ -38,13 +38,13 @@ function App() {
     // Set helper variable newDataNow to indicate that it's ok to fetch data from api immediately
     setNewDataNow(true);
     setStation(newStation);
-  }
+  };
 
   const directionHandler = () => {
     // Set helper variable newDataNow to indicate that it's ok to fetch data from api immediately
     setNewDataNow(true);
     direction === 'east' ? setDirection('west') : setDirection('east');
-  }
+  };
 
   const convertTime = (timestamp) => {
     const hours = Math.floor(timestamp / 3600);
@@ -52,7 +52,7 @@ function App() {
     const seconds = Math.floor(timestamp % 3600 % 60);
     const hms = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     return hms;
-  }
+  };
 
   useEffect(() => {
     /* Get default data */
@@ -81,7 +81,6 @@ function App() {
       console.error('Could not get data');
       setMetros([]);
     }
-
   }, []);
 
   useEffect(() => {
@@ -126,8 +125,7 @@ function App() {
        * get new data every 2 seconds
        */
 
-      let timerID = setInterval(() => {
-
+      const timerID = setInterval(() => {
         if (apiQuery !== '') {
           fetch(apiURL, apiQuery)
           .then(response => response.json())

@@ -7,7 +7,7 @@ const StyledClock = styled.div`
   top: 0;
   padding: 0.5em;
 
-  @media (min-width: 401px) {
+  @media (min-width: 400px) {
     right: 1.5em;
     top: 1em;
   }
