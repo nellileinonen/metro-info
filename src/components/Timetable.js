@@ -1,6 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState } from 'react';
+import { apiURL, createMetroQuery } from '../apiHelpers.js';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
+const StyledContainer = styled.div`
+  padding-left: 10px;
+`;
 
 const StyledSpan = styled.span`
   font-size: 1.6em;
@@ -12,7 +17,63 @@ const StyledDiv = styled.div`
   width: 15em;
 `;
 
-function Timetable({ metros, station, direction }) {
+function Timetable({ station, direction }) {
+  const [metros, setMetros] = useState([]);
+
+  const convertTime = (timestamp) => {
+    const hours = Math.floor(timestamp / 3600);
+    const minutes = Math.floor(timestamp % 3600 / 60);
+    const seconds = Math.floor(timestamp % 3600 % 60);
+    const hms = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return hms;
+  };
+
+  useEffect(() => {
+    console.log('station or direction changed');
+    console.log(station);
+    console.log(direction);
+
+    const fetchTimetable = () => {
+      const apiQuery = createMetroQuery(station, direction);
+      if (apiQuery !== '') {
+        fetch(apiURL, apiQuery)
+        .then(response => response.json())
+        .then(data => {
+          // Clear away metros with empty headsigns i.e. no destination (for example, on terminals)
+          const temp = data.data.stop.stoptimesWithoutPatterns.filter(metro => metro.headsign !== null);
+          if (temp.length > 0) {
+            const nextMetros = temp.map(item => (
+                [item.trip.id, convertTime(item.realtimeDeparture), item.headsign]
+              ));
+            setMetros(nextMetros);
+          } else {
+            setMetros([]);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setMetros([]);
+        })
+      }
+      else {
+        console.error('Could not get data');
+        setMetros([]);
+      }
+    }
+
+    console.log('get now');
+    fetchTimetable();
+
+    console.log('get in itervals');
+    const timerID = setInterval(() => {
+      fetchTimetable();
+    }, 2000);
+
+    // Clear interval after effect
+    return () => clearInterval(timerID);
+
+  }, [station, direction]);
+
   if (metros.length === 0) {
     // No departing metros on terminals
     if (((station === 'Mellunmäki' || station === 'Vuosaari') && direction === 'east') ||
@@ -20,6 +81,12 @@ function Timetable({ metros, station, direction }) {
       return (
         <StyledDiv>
           <p>Päätepysäkki. Ei lähteviä metroja haluttuun suuntaan.</p>
+        </StyledDiv>
+      );
+    } else if ((station === '- -') || (direction === '- -')) {
+      return (
+        <StyledDiv>
+          <p>Valitse lähtöasema ja suunta.</p>
         </StyledDiv>
       );
     } else {
@@ -32,50 +99,19 @@ function Timetable({ metros, station, direction }) {
   }
 
   return (
-    <div>
-      {metros.map(([id, depTime, dest]) => (
-        <p key={id}>
-          <StyledSpan>{depTime}</StyledSpan> {dest}
+    <StyledContainer>
+      { metros.map(([id, depTime, dest]) => (
+        <p key={ id }>
+          <StyledSpan>{ depTime }</StyledSpan> { dest }
         </p>
-      ))}
-    </div>
+      )) }
+    </StyledContainer>
   );
 }
 
-/* Check if metro info has changed.
- * Return false if unequal content is found, true is content is equal.
- */
-function areEqual(prevProps, nextProps) {
-  const prevMetros = prevProps.metros;
-  const nextMetros = nextProps.metros;
-
-  if (prevMetros.length === nextMetros.length) {
-    if (prevMetros.length > 0) {
-
-      for (let i = 0; i < prevMetros.length; i++) {
-        for (let j = 0; j < prevMetros[i].length; j++) {
-          if (!(prevMetros[i][j] === nextMetros[i][j])) {
-            return false;
-          }
-        }
-      }
-
-      return true;
-
-    } else {
-      return true;
-    }
-  }
-  else {
-    return false;
-  }
-}
-
 Timetable.propTypes = {
-  metros: PropTypes.array,
   station: PropTypes.string,
   direction: PropTypes.string
 }
 
-// Use React memo to re-render Timetable only if metro info changes
-export default React.memo(Timetable, areEqual);
+export default Timetable;

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { stations, apiURL, defaultQuery, createMetroQuery, getNewDataNow, setNewDataNow } from './apiHelpers.js';
+import { stations } from './apiHelpers.js';
 import Clock from './components/Clock.js';
-import Station from './components/Station.js';
+import Select from './components/Select.js';
 import Timetable from './components/Timetable.js';
 import Footer from './components/Footer.js';
 
@@ -30,149 +30,45 @@ const StyledApp = styled.div`
 `;
 
 function App() {
-  const [station, setStation] = useState('Tapiola');
-  const [direction, setDirection] = useState('east');
-  const [metros, setMetros] = useState([]);
+  const [station, setStation] = useState('- -');
+  const [direction, setDirection] = useState('- -');
 
   const stationHandler = (newStation) => {
-    // Set helper variable newDataNow to indicate that it's ok to fetch data from api immediately
-    setNewDataNow(true);
     setStation(newStation);
   };
 
-  const directionHandler = () => {
-    // Set helper variable newDataNow to indicate that it's ok to fetch data from api immediately
-    setNewDataNow(true);
-    direction === 'east' ? setDirection('west') : setDirection('east');
+  const directionHandler = (newDirection) => {
+    setDirection(newDirection);
   };
-
-  const convertTime = (timestamp) => {
-    const hours = Math.floor(timestamp / 3600);
-    const minutes = Math.floor(timestamp % 3600 / 60);
-    const seconds = Math.floor(timestamp % 3600 % 60);
-    const hms = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    return hms;
-  };
-
-  useEffect(() => {
-    /* Get default data */
-    if (defaultQuery !== '') {
-      fetch(apiURL, defaultQuery)
-      .then(response => response.json())
-      .then(data => {
-        // Clear away metros with empty headsigns i.e. no destination (for example, on terminals)
-        const temp = data.data.stop.stoptimesWithoutPatterns.filter(metro => metro.headsign !== null);
-
-        if (temp.length > 0) {
-          const nextMetros = temp.map(item => (
-              [item.trip.id, convertTime(item.realtimeDeparture), item.headsign]
-            ));
-          setMetros(nextMetros);
-        } else {
-          setMetros([]);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setMetros([]);
-      })
-    }
-    else {
-      console.error('Could not get data');
-      setMetros([]);
-    }
-  }, []);
-
-  useEffect(() => {
-    const apiQuery = createMetroQuery(station, direction);
-
-    if (getNewDataNow()) {
-      /* If app state change was caused by change in station or direction,
-       * get new data immediately
-       */
-
-      // Set helper variable newDataNow to indicate that next fetch from api
-      // doesn't have to be immediately executed
-      setNewDataNow(false);
-
-      if (apiQuery !== '') {
-        fetch(apiURL, apiQuery)
-        .then(response => response.json())
-        .then(data => {
-          // Clear away metros with empty headsigns i.e. no destination (for example, on terminals)
-          const temp = data.data.stop.stoptimesWithoutPatterns.filter(metro => metro.headsign !== null);
-          if (temp.length > 0) {
-            const nextMetros = temp.map(item => (
-                [item.trip.id, convertTime(item.realtimeDeparture), item.headsign]
-              ));
-            setMetros(nextMetros);
-          } else {
-            setMetros([]);
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          setMetros([]);
-        })
-      }
-      else {
-        console.error('Could not get data');
-        setMetros([]);
-      }
-
-    } else {
-      /* If app state change was caused by change in metros state,
-       * get new data every 2 seconds
-       */
-
-      const timerID = setInterval(() => {
-        if (apiQuery !== '') {
-          fetch(apiURL, apiQuery)
-          .then(response => response.json())
-          .then(data => {
-            // Clear away metros with empty headsigns i.e. no destination (for example, on terminals)
-            const temp = data.data.stop.stoptimesWithoutPatterns.filter(metro => metro.headsign !== null);
-            if (temp.length > 0) {
-              const nextMetros = temp.map(item => (
-                  [item.trip.id, convertTime(item.realtimeDeparture), item.headsign]
-                ));
-              setMetros(nextMetros);
-            } else {
-              setMetros([]);
-            }
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-            setMetros([]);
-          })
-        }
-        else {
-          console.error('Could not get data');
-          setMetros([]);
-        }
-
-      }, 2000);
-      // Clear interval after effect
-      return () => clearInterval(timerID);
-    }
-  }, [station, direction, metros]);
 
   return (
     <Container>
       <StyledApp>
         <Clock />
-        <Station
-          stations={ stations }
-          station={ station }
-          direction={ direction }
-          stationHandler={ stationHandler }
-          directionHandler={ directionHandler }
+
+        <h1>Seuraavat metrot</h1>
+
+        <Select
+          type={ 'station' }
+          title={ 'Lähtöasema:' }
+          options={ stations }
+          current={ station }
+          selectionHandler={ stationHandler }
         />
+
+        <Select
+          type={ 'direction' }
+          title={ 'Suunta:' }
+          options={ ['Mellumäki/Vuosaari', 'Matinkylä/Tapiola'] }
+          current={ direction }
+          selectionHandler={ directionHandler }
+        />
+
         <Timetable
-          metros={ metros }
           station={ station }
           direction={ direction }
         />
+
       </StyledApp>
       <Footer />
     </Container>
