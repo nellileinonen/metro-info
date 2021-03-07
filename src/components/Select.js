@@ -11,32 +11,47 @@ const StyledContainer = styled.div`
   }
 `;
 
+const StyledBlock = styled.div`
+  display: inline-block;
+  text-align: left;
+  width: 10em;
+
+  @media (min-width: 225px) {
+    width: 14em;
+  }
+`;
+
 const StyledButton = styled.button`
   background: none;
-  border: none;
-  padding: 10px 0 10px 0px;
+  border: 1px solid #d6d6d6;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px #d6d6d6;
+
+  padding: 10px 0 20px 0px;
+
   font: inherit;
+  font-size: 1.1em;
+  font-weight: 500;
 
-  /* TODO */
-  width: 250px;;
-
+  width: 100%;
   text-align: left;
 
   :hover {
-    color: white;
-    background: #F26100;
+    background: #f57300;
+    border-color: #b33e00;
     transition-duration: 0.25s;
   }
 
   img {
     max-width: 60px;
+    margin-bottom: -7px;
   }
-`;
 
-const StyledTitle = styled.div`
-  background-color: #181940;
-  color: white;
-  padding: 10px 0;
+  &.option {
+    padding: 10px 0 10px 10px;
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 const StyledList = styled.ul`
@@ -56,7 +71,7 @@ const StyledList = styled.ul`
     background: #39396E;
   }
   ::-webkit-scrollbar-track {
-    background: #ededed;
+    background: #FBFBFE;
   }
 
   /* Hide list when not toggled active */
@@ -80,7 +95,10 @@ function Select({ type, title, options, current, selectionHandler }) {
   const createOptionList = () => {
     let optionLst = options.map(item => (
       <li key={ item } value={ item }>
-        <StyledButton onClick={ () => handleSelection(item) }>
+        <StyledButton
+          className='option'
+          onClick={ () => handleSelection(item) }
+        >
           { item }
         </StyledButton>
       </li>
@@ -92,22 +110,22 @@ function Select({ type, title, options, current, selectionHandler }) {
 
   return (
     <StyledContainer>
+      <StyledBlock>
       { title }
-      <div>
-        <StyledButton aria-label={ title } onClick={ () => toggle() }>
-          {
-            type === 'direction'
-            ?
-            <img src={ directionIcon }/>
-            :
-            <img src={ pinIcon }/>
-          }
-          { current }
-        </StyledButton>
-      </div>
+      <StyledButton aria-label={ title } onClick={ () => toggle() }>
+        {
+          type === 'direction'
+          ?
+          <img src={ directionIcon }/>
+          :
+          <img src={ pinIcon }/>
+        }
+        { current }
+      </StyledButton>
       <StyledList className={active ? ' active' : ''}>
         { createOptionList() }
       </StyledList>
+      </StyledBlock>
     </StyledContainer>
   );
 }

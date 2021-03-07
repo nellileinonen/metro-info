@@ -6,7 +6,7 @@ const StyledFooter = styled.footer`
   margin-right: 0.2em;
 
   p, a {
-    color: #C0C0DC;
+    color: #8a8a8a;
   }
 
   p {
@@ -16,6 +16,20 @@ const StyledFooter = styled.footer`
 
   :last-child {
     margin-bottom: 0.5em;
+  }
+
+  /* Hide background photo info */
+  .photoInfo {
+    display: none;
+  }
+
+  @media (min-width: 550px) {
+    padding: 1em;
+    text-align: right;
+
+    .photoInfo {
+      display: inline;
+    }
   }
 `;
 
@@ -30,7 +44,7 @@ function Footer() {
           CC BY 4.0
         </a>
       </p>
-      <p>Kuva:
+      <p className='photoInfo'>Kuva:
       {` `}
         <a href="https://unsplash.com/@juliusjansson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
            target="_blank"
