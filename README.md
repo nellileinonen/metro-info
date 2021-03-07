@@ -4,7 +4,7 @@ An app displaying Helsinki metro timetable.
 
 <br />
 
-![](metro-info.gif)
+![](metro-timetable.png)
 
 <br />
 
