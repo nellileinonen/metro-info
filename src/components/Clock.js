@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const StyledClock = styled.div`
+  font-size: 0.6em;
+  font-weight: 400;
+
+  width: 4.5em;
+  text-align: left;
+
   position: absolute;
   right: 0.5em;
-  top: 0;
-  padding: 0.2em 0.5em 0.5em 0.5em;
-  width: 3em;
+  top: 0.5em;
 
-  @media (min-width: 400px) {
-    right: 1.5em;
-    top: 1em;
-  }
-
-  @media (min-width: 550px) {
-    position: fixed;
-    top: 0;
-    color: #fcfcff;
+  @media (max-width: 249px) {
+    font-size: 0.7em;
   }
 `;
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { stations } from './apiHelpers.js';
-import Clock from './components/Clock.js';
 import Select from './components/Select.js';
 import Timetable from './components/Timetable.js';
 import Footer from './components/Footer.js';
@@ -18,8 +17,8 @@ const GlobalStyle = createGlobalStyle`
 
       background-image:
       linear-gradient(
-        rgba(36,36,99, 0.65),
-        rgba(36,36,99, 0.65)
+        rgba(35, 47, 97, 0.55),
+        rgba(35, 47, 97, 0.60)
       ),
       url(${backgroundImage});
       background-position: center;
@@ -36,17 +35,6 @@ const Container = styled.div`
   @media (max-width: 226px) {
     h1 {
       font-size: 1.4em;
-    }
-  }
-
-  @media (min-height: 750px) and (max-width: 549px){
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-
-    h1 {
-      margin-bottom: 1.2em;
     }
   }
 
@@ -68,8 +56,8 @@ const StyledApp = styled.div`
 `;
 
 function App() {
-  const [station, setStation] = useState('- -');
-  const [direction, setDirection] = useState('- -');
+  const [station, setStation] = useState('Valitse asema');
+  const [direction, setDirection] = useState('Valitse suunta');
 
   const stationHandler = (newStation) => {
     setStation(newStation);
@@ -82,9 +70,8 @@ function App() {
   return (
     <Container>
       <GlobalStyle />
-      <Clock />
       <StyledApp>
-        <h1>Seuraavat metrot</h1>
+        <h1>Seuraava metro</h1>
 
         <Select
           type={ 'station' }
@@ -107,8 +94,9 @@ function App() {
           direction={ direction }
         />
 
+        <Footer />
+
       </StyledApp>
-      <Footer />
     </Container>
   );
 }

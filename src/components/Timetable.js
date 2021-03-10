@@ -2,6 +2,8 @@ import React, {useEffect, useState } from 'react';
 import { apiURL, createMetroQuery } from '../apiHelpers.js';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Clock from './Clock.js';
+import pinIconGrey from '../images/pin-icon-grey.png';
 
 const StyledBackground = styled.div`
   background: #002f5d;
@@ -9,6 +11,11 @@ const StyledBackground = styled.div`
 
   font-size: 1.2em;
   font-weight: 400;
+
+  padding: 2em 0;
+
+  /* Positioning so that clock can be position absolute relative to this */
+  position: relative;
 
   @media (min-width: 250px) {
     font-size: 1.6em;
@@ -25,16 +32,31 @@ const StyledTimetable = styled.div`
   text-align: left;
 `;
 
+const StyledStation = styled.p`
+  font-style: italic;
+  font-size: 1em;
+  color: #b9b9c9;
+  margin: 0;
+`;
+
 const StyledSpan = styled.span`
   display: inline-block;
   width: 4.5em;
 `;
 
-const StyledDiv = styled.div`
-  background: #002f5d;
-  color: #fafafa;
-  font-size: 1.2em;
-  padding: 2em 0;
+const Title = styled.p`
+  font-size: 0.63em;
+  color: #b9b9c9;
+
+  margin-bottom: -1em;
+
+  span {
+    width: 7.3em;
+  }
+`;
+
+const StyledIcon = styled.img`
+  width: 15px;
 `;
 
 function Timetable({ station, direction }) {
@@ -49,7 +71,7 @@ function Timetable({ station, direction }) {
   };
 
   useEffect(() => {
-    if ((station !== '- -') && (direction !== '- -')) {
+    if ((station !== 'Valitse asema') && (direction !== 'Valitse suunta')) {
       const fetchTimetable = () => {
         const apiQuery = createMetroQuery(station, direction);
         if (apiQuery !== '') {
@@ -88,39 +110,58 @@ function Timetable({ station, direction }) {
     }
   }, [station, direction]);
 
-  if (metros.length === 0) {
-    // No departing metros on terminals
-    if (((station === 'Mellunmäki' || station === 'Vuosaari') && direction === 'east') ||
-        ((station === 'Matinkylä' || station === 'Tapiola') && direction === 'west')) {
-      return (
-        <StyledDiv>
-          <p>Päätepysäkki. Ei lähteviä metroja haluttuun suuntaan.</p>
-        </StyledDiv>
-      );
-    } else if ((station === '- -') || (direction === '- -')) {
-      return (
-        <StyledDiv>
-          <p>Valitse lähtöasema ja suunta.</p>
-        </StyledDiv>
-      );
-    } else {
-      return (
-        <StyledDiv>
-          <p>Ei tietoa lähtevistä metroista.</p>
-        </StyledDiv>
-      );
+  const showError = () => {
+    if (metros.length === 0) {
+      // No departing metros on terminals
+      if (((station === 'Mellunmäki' || station === 'Vuosaari') && direction === 'east') ||
+          ((station === 'Matinkylä' || station === 'Tapiola') && direction === 'west')) {
+        return (
+            <p>Päätepysäkki. Ei lähteviä metroja haluttuun suuntaan.</p>
+        );
+      } else if ((station === 'Valitse asema') || (direction === 'Valitse asema')) {
+        return (
+            <p>Valitse lähtöasema ja suunta.</p>
+        );
+      } else {
+        return (
+            <p>Ei tietoa lähtevistä metroista.</p>
+        );
+      }
     }
   }
 
   return (
     <StyledBackground>
-      <StyledTimetable>
-        { metros.map(([id, depTime, dest]) => (
-          <p key={ id }>
-            <StyledSpan>{ depTime }</StyledSpan> { dest }
-          </p>
-        )) }
-      </StyledTimetable>
+      <Clock />
+
+      { metros.length !== 0
+        ?
+        <StyledTimetable>
+
+          {/* TODO: Link to station selection
+          <StyledStation>
+            <a><StyledIcon src={ pinIconGrey }/> <span>{ station }</span></a>
+          </StyledStation>
+          */}
+
+          <StyledStation>
+            <StyledIcon src={ pinIconGrey }/> { station }
+          </StyledStation>
+
+          <Title>
+            <StyledSpan>Lähtö</StyledSpan> Päätepysäkki
+          </Title>
+
+          { metros.map(([id, depTime, dest]) => (
+            <p key={ id }>
+              <StyledSpan>{ depTime }</StyledSpan> { dest }
+            </p>
+          )) }
+
+        </StyledTimetable>
+        :
+        showError()
+      }
     </StyledBackground>
   );
 }

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
-  align-self: flex-end;
-  margin-right: 0.2em;
+  margin: 0.3em 0.3em 0 0;
+  text-align: right;
 
   p, a {
     color: #8a8a8a;
@@ -14,19 +14,15 @@ const StyledFooter = styled.footer`
     margin: 0;
   }
 
-  :last-child {
-    margin-bottom: 0.5em;
-  }
-
   /* Hide background photo info */
   .photoInfo {
     display: none;
   }
 
   @media (min-width: 550px) {
-    padding: 1em;
-    text-align: right;
+    padding-bottom: 0.3em;
 
+    /* Show background photo info */
     .photoInfo {
       display: inline;
     }

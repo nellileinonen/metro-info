@@ -4,20 +4,19 @@ import styled from 'styled-components';
 import directionIcon from '../images/direction-icon.png';
 import pinIcon from '../images/pin-icon.png';
 
-const StyledContainer = styled.div`
-  .active {
-    max-height: 250px;
-    overflow-y: scroll;
-  }
-`;
-
 const StyledBlock = styled.div`
   display: inline-block;
   text-align: left;
-  width: 10em;
+  width: 80%;
 
-  @media (min-width: 225px) {
-    width: 14em;
+  p {
+    padding: 0 0 0 5px;
+    margin: 0;
+  }
+
+  .active {
+    max-height: 400px;
+    overflow-y: scroll;
   }
 `;
 
@@ -48,7 +47,7 @@ const StyledButton = styled.button`
   }
 
   &.option {
-    padding: 10px 0 10px 10px;
+    padding: 5px 0 5px 10px;
     border: none;
     border-radius: 0;
   }
@@ -103,30 +102,28 @@ function Select({ type, title, options, current, selectionHandler }) {
         </StyledButton>
       </li>
     ));
-
-    console.log(optionLst);
     return optionLst;
   };
 
   return (
-    <StyledContainer>
+    <div>
       <StyledBlock>
-      { title }
-      <StyledButton aria-label={ title } onClick={ () => toggle() }>
-        {
-          type === 'direction'
-          ?
-          <img src={ directionIcon }/>
-          :
-          <img src={ pinIcon }/>
-        }
-        { current }
-      </StyledButton>
-      <StyledList className={active ? ' active' : ''}>
-        { createOptionList() }
-      </StyledList>
+        <p>{ title }</p>
+        <StyledButton aria-label={ title } onClick={ () => toggle() }>
+          {
+            type === 'direction'
+            ?
+            <img src={ directionIcon }/>
+            :
+            <img src={ pinIcon }/>
+          }
+          { current }
+        </StyledButton>
+        <StyledList className={active ? ' active' : ''}>
+          { createOptionList() }
+        </StyledList>
       </StyledBlock>
-    </StyledContainer>
+    </div>
   );
 }
 
