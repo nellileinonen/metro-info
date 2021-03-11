@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { stations } from './apiHelpers.js';
 import Select from './components/Select.js';
@@ -55,9 +56,22 @@ const StyledApp = styled.div`
   text-align: center;
 `;
 
+/* Custom hook that gives the query string */
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function App() {
-  const [station, setStation] = useState('Valitse asema');
-  const [direction, setDirection] = useState('Valitse suunta');
+  const stationQuery = useQuery().get('station');
+  const directionQuery = useQuery().get('direction');
+
+  /* Use station and direction from query string if possible */
+  const [station, setStation] = useState(
+    (stationQuery !== null) ? stationQuery : 'Valitse asema'
+  );
+  const [direction, setDirection] = useState(
+    (directionQuery !== null) ? directionQuery : 'Valitse suunta'
+  );
 
   const stationHandler = (newStation) => {
     setStation(newStation);
@@ -84,7 +98,7 @@ function App() {
         <Select
           type={ 'direction' }
           title={ 'Suunta' }
-          options={ ['Mellumäki/Vuosaari', 'Matinkylä/Tapiola'] }
+          options={ ['Mellunmäki/Vuosaari', 'Matinkylä/Tapiola'] }
           current={ direction }
           selectionHandler={ directionHandler }
         />

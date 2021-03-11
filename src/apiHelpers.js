@@ -4,7 +4,7 @@ const stops =
     {
       'gtfsId': 'HSL:2222603',
       'name': 'Aalto-yliopisto',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:2222604',
@@ -14,7 +14,7 @@ const stops =
     {
       'gtfsId': 'HSL:1111601',
       'name': 'Hakaniemi',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1111602',
@@ -24,7 +24,7 @@ const stops =
     {
       'gtfsId': 'HSL:1020603',
       'name': 'Helsingin yliopisto',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1020604',
@@ -34,7 +34,7 @@ const stops =
     {
       'gtfsId': 'HSL:1431601',
       'name': 'Herttoniemi',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1431602',
@@ -44,7 +44,7 @@ const stops =
     {
       'gtfsId': 'HSL:1453601',
       'name': 'Itäkeskus',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1453602',
@@ -54,7 +54,7 @@ const stops =
     {
       'gtfsId': 'HSL:1100601',
       'name': 'Kalasatama',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1100602',
@@ -63,7 +63,7 @@ const stops =
     },{
       'gtfsId': 'HSL:1040601',
       'name': 'Kamppi',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1040602',
@@ -73,7 +73,7 @@ const stops =
     {
       'gtfsId': 'HSL:2222601',
       'name': 'Keilaniemi',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:2222602',
@@ -83,7 +83,7 @@ const stops =
     {
       'gtfsId': 'HSL:1310603',
       'name': 'Koivusaari',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1310604',
@@ -93,7 +93,7 @@ const stops =
     {
       'gtfsId': 'HSL:1473601',
       'name': 'Kontula',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1473602',
@@ -103,7 +103,7 @@ const stops =
     {
       'gtfsId': 'HSL:1420601',
       'name': 'Kulosaari',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1420602',
@@ -113,7 +113,7 @@ const stops =
     {
       'gtfsId': 'HSL:1310601',
       'name': 'Lauttasaari',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1310602',
@@ -123,7 +123,7 @@ const stops =
     {
       'gtfsId': 'HSL:2314601',
       'name': 'Matinkylä',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:2314602',
@@ -133,7 +133,7 @@ const stops =
     {
       'gtfsId': 'HSL:1473603',
       'name': 'Mellunmäki',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1473604',
@@ -143,7 +143,7 @@ const stops =
     {
       'gtfsId': 'HSL:1454601',
       'name': 'Myllypuro',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1454602',
@@ -153,7 +153,7 @@ const stops =
     {
       'gtfsId': 'HSL:2214603',
       'name': 'Niittykumpu',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:2214604',
@@ -163,7 +163,7 @@ const stops =
     {
       'gtfsId': 'HSL:1452601',
       'name': 'Puotila',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1452602',
@@ -173,7 +173,7 @@ const stops =
     {
       'gtfsId': 'HSL:1541601',
       'name': 'Rastila',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1541602',
@@ -183,7 +183,7 @@ const stops =
     {
       'gtfsId': 'HSL:1020601',
       'name': 'Rautatientori',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1020602',
@@ -193,7 +193,7 @@ const stops =
     {
       'gtfsId': 'HSL:1201601',
       'name': 'Ruoholahti',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1201602',
@@ -203,7 +203,7 @@ const stops =
     {
       'gtfsId': 'HSL:1431603',
       'name': 'Siilitie',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1431604',
@@ -213,7 +213,7 @@ const stops =
     {
       'gtfsId': 'HSL:1121601',
       'name': 'Sörnäinen',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1121602',
@@ -223,7 +223,7 @@ const stops =
     {
       'gtfsId': 'HSL:2211601',
       'name': 'Tapiola',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:2211602',
@@ -233,7 +233,7 @@ const stops =
     {
       'gtfsId': 'HSL:2214601',
       'name': 'Urheilupuisto',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:2214602',
@@ -243,7 +243,7 @@ const stops =
     {
       'gtfsId': 'HSL:1541603',
       'name': 'Vuosaari',
-      'direction': 'Mellumäki/Vuosaari',
+      'direction': 'Mellunmäki/Vuosaari',
     },
     {
       'gtfsId': 'HSL:1541604',

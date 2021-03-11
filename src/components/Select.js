@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import directionIcon from '../images/direction-icon.png';
@@ -92,16 +93,29 @@ function Select({ type, title, options, current, selectionHandler }) {
   };
 
   const createOptionList = () => {
-    let optionLst = options.map(item => (
-      <li key={ item } value={ item }>
-        <StyledButton
-          className='option'
-          onClick={ () => handleSelection(item) }
-        >
-          { item }
-        </StyledButton>
-      </li>
-    ));
+    let optionLst = [];
+    let searchParams = new URLSearchParams(useLocation().search);
+
+    options.forEach(item => {
+      searchParams.set(type, item);
+
+      let option =
+        <li key={ item } value={ item }>
+          <Link
+            to={{ pathname: 'timetable', search: searchParams.toString() }}
+          >
+            <StyledButton
+              className='option'
+              onClick={ () => handleSelection(item) }
+            >
+              { item }
+            </StyledButton>
+          </Link>
+        </li>;
+
+      optionLst.push(option);
+    });
+
     return optionLst;
   };
 
