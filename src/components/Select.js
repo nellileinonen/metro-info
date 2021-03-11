@@ -52,6 +52,13 @@ const StyledButton = styled.button`
     border: none;
     border-radius: 0;
   }
+
+  &.placeholder {
+    color: #656666;
+    :hover {
+      color: black;
+    }
+  }
 `;
 
 const StyledList = styled.ul`
@@ -82,7 +89,7 @@ const StyledList = styled.ul`
 
 function Select({ type, title, options, current, selectionHandler }) {
   const [active, setActive] = useState(false);
-
+  
   const toggle = () => {
     active ? setActive(false) : setActive(true);
   };
@@ -123,7 +130,17 @@ function Select({ type, title, options, current, selectionHandler }) {
     <div>
       <StyledBlock>
         <p>{ title }</p>
-        <StyledButton aria-label={ title } onClick={ () => toggle() }>
+        <StyledButton
+          aria-label={ title }
+          onClick={ () => toggle() }
+          className={
+            (current === 'Valitse asema' || current === 'Valitse suunta')
+            ?
+            'placeholder'
+            :
+            ''
+          }
+        >
           {
             type === 'direction'
             ?

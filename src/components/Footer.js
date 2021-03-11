@@ -32,7 +32,7 @@ const StyledFooter = styled.footer`
 function Footer() {
   return (
     <StyledFooter>
-      <p>Data: HSL 2020 /
+      <p>Data: HSL 2021 /
         {` `}
         <a href="https://creativecommons.org/licenses/by/4.0/"
            target="_blank"

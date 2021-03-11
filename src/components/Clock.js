@@ -34,7 +34,7 @@ function Clock() {
 
   return (
     <StyledClock>
-      {time}
+      { time }
     </StyledClock>
   );
 }
